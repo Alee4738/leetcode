@@ -28,6 +28,7 @@ none = [1, 1, 1]
 one = [-1, 0, 1, 0, -1]
 multiple = [-2, -1, 0, 1, 2, 3]
 unsorted = [1, -1, 0, -2, 2, 5, -3]
+many = [0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, -1, -1, -1, -1]
 
 print(threeSum(none))
 print()
@@ -36,4 +37,6 @@ print()
 print(threeSum(multiple))
 print()
 print(threeSum(unsorted))
+print()
+print(threeSum(many))
 print()
