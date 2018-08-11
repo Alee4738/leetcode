@@ -7,21 +7,43 @@ Note: The solution set must not contain duplicate triplets.
 
 # Naive solution: consider all possible unique triplet indices
 def threeSum(nums):
-    ret = []
-    for i in range(len(nums)):
-        for j in range(i + 1, len(nums)):
-            for k in range(j + 1, len(nums)):
-                if nums[i] + nums[j] + nums[k] == 0:
-                    candidate = sorted([nums[i], nums[j], nums[k]])
-                    # check no duplicates before adding
-                    is_duplicate = False
-                    for triplet in ret:
-                        if candidate == triplet:
-                            is_duplicate = True
-                            break
-                    if not is_duplicate:
-                        ret.append(candidate)
-    return ret
+    if len(nums) < 3:
+        return []
+
+    counts = dict()
+    for i in nums:
+        counts[i] = counts.get(i, 0) + 1
+
+    # dictionary whose keys are numbers needed to complete a triple
+    # values are sets of triples that depend on the key
+    possible_triples = set()
+
+    # fill the dictionary of numbers to look for
+    for num1 in counts.keys():
+        for num2 in counts.keys():
+            # get unique triple (sorted)
+            other_num = -1 * (num1 + num2)
+            possible_triples.add(tuple(sorted([num1, num2, other_num])))
+
+    three_sums = []
+
+    # validate that each triple exists
+    for triple in possible_triples:
+        # compare frequency of each item in triple with frequency in nums
+        freq = dict()
+        for item in triple:
+            freq[item] = freq.get(item, 0) + 1
+
+        valid_triple = True
+        for key, val in freq.items():
+            if counts.get(key, 0) < val:
+                valid_triple = False
+
+        if valid_triple:
+            three_sums.append(list(triple))
+
+    return three_sums
+
 
 # Smoke tests
 none = [1, 1, 1]
