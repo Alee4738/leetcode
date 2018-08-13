@@ -5,44 +5,96 @@ Find all unique triplets in the array which gives the sum of zero.
 Note: The solution set must not contain duplicate triplets.
 """
 
-# Naive solution: consider all possible unique triplet indices
+# Two-pointer solution: sort, then use the 2sum method to converge
 def threeSum(nums):
     if len(nums) < 3:
         return []
 
-    counts = dict()
-    for i in nums:
-        counts[i] = counts.get(i, 0) + 1
+    snums = sorted(nums)
+    ret = []
 
-    # dictionary whose keys are numbers needed to complete a triple
-    # values are sets of triples that depend on the key
-    possible_triples = set()
+    # TODO: make repeated number checks (don't want i to index -1, then -1 again
+    # TODO: same with the other indices
+    
+    for i in range(len(snums)):
+        beg = i + 1
+        end = len(snums) - 1
+        while end - beg > 0:
+            test_sum = snums[i] + snums[beg] + snums[end]
+            if test_sum < 0:
+                beg = beg + 1
+            elif test_sum > 0:
+                end = end - 1
+            else:
+                ret.append([snums[i], snums[beg], snums[end]])
 
-    # fill the dictionary of numbers to look for
-    for num1 in counts.keys():
-        for num2 in counts.keys():
-            # get unique triple (sorted)
-            other_num = -1 * (num1 + num2)
-            possible_triples.add(tuple(sorted([num1, num2, other_num])))
 
-    three_sums = []
 
-    # validate that each triple exists
-    for triple in possible_triples:
-        # compare frequency of each item in triple with frequency in nums
-        freq = dict()
-        for item in triple:
-            freq[item] = freq.get(item, 0) + 1
 
-        valid_triple = True
-        for key, val in freq.items():
-            if counts.get(key, 0) < val:
-                valid_triple = False
 
-        if valid_triple:
-            three_sums.append(list(triple))
 
-    return three_sums
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # counts = dict()
+    # for i in nums:
+    #     counts[i] = counts.get(i, 0) + 1
+    #
+    # # dictionary whose keys are numbers needed to complete a triple
+    # # values are sets of triples that depend on the key
+    # possible_triples = set()
+    #
+    # # fill the dictionary of numbers to look for
+    # for num1 in counts.keys():
+    #     for num2 in counts.keys():
+    #         # get unique triple (sorted)
+    #         other_num = -1 * (num1 + num2)
+    #         possible_triples.add(tuple(sorted([num1, num2, other_num])))
+    #
+    # three_sums = []
+    #
+    # # validate that each triple exists
+    # for triple in possible_triples:
+    #     # compare frequency of each item in triple with frequency in nums
+    #     freq = dict()
+    #     for item in triple:
+    #         freq[item] = freq.get(item, 0) + 1
+    #
+    #     valid_triple = True
+    #     for key, val in freq.items():
+    #         if counts.get(key, 0) < val:
+    #             valid_triple = False
+    #
+    #     if valid_triple:
+    #         three_sums.append(list(triple))
+    #
+    # return three_sums
 
 
 # Smoke tests
