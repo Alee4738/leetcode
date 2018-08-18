@@ -18,6 +18,11 @@ def fourSum(nums, target):
 
     nums.sort()
 
+    # get rid of targets out of bounds
+    if nums[0] + nums[1] + nums[2] + nums[3] > target \
+            or nums[-1] + nums[-2] + nums[-3] + nums[-4] < target:
+        return []
+
     ret = []
     for i in range(len(nums)):
         # don't run a duplicate
@@ -38,6 +43,7 @@ def fourSum(nums, target):
                 if end != len(nums) - 1 and nums[end] == nums[end + 1]:
                     end = end - 1
                     continue
+
 
                 test_sum = nums[i] + nums[j] + nums[beg] + nums[end]
 
