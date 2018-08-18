@@ -26,7 +26,7 @@ def fourSum(nums, target):
 
         for j in range(i + 1, len(nums)):
             # don't run a duplicate
-            if j != 1 and nums[j] == nums[j - 1]:
+            if j != i + 1 and nums[j] == nums[j - 1]:
                 continue
 
             beg, end = j + 1, len(nums) - 1
