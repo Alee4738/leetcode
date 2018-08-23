@@ -1,3 +1,5 @@
 # Pycharm stuff
 __*__
 .idea*
+a.out
+*.swp
