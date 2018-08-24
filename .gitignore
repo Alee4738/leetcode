@@ -1,5 +1,9 @@
 # Pycharm stuff
 __*__
 .idea*
-a.out
+
+# Makefile stuff
+*.out
+
+# vim stuff
 *.swp

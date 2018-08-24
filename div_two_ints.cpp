@@ -17,14 +17,16 @@ int divide(int dividend, int divisor) {
 
 
   // get rid of most int_min cases
-  bool dividend_int_min = false;
-  if (dividend == INT_MIN) {
-    if (divisor == -1) return INT_MAX;
-    if (divisor == 1) return INT_MIN;
-    if (divisor == INT_MIN) return 1;
+  bool dividend_int_min = (dividend == INT_MIN);
+  if (dividend_int_min) {
+    switch (divisor)
+    {
+      case -1: return INT_MAX;
+      case 1: return INT_MIN;
+      case INT_MIN: return 1;
+    }
     
     // temporarily change to int_max (subtracting a 1 for now)
-    dividend_int_min = true;
     dividend = INT_MAX;
   }
   if (divisor == INT_MIN) return 0;
@@ -38,19 +40,47 @@ int divide(int dividend, int divisor) {
     divisor = ~divisor + 1;
   }
 
-  // Naive soln: subtract until 0 or negative
+  // easy case: 0
+  if (divisor > dividend) return 0;
+
+
+  // MAIN ALGORITHM
+
+  // initialize remainder and quotient
   int quotient = 0;
-  while (dividend >= divisor)
+  int rem = 0;
+  int count = 0;
+  
+  // default: drop down a digit into remainder.
+  // If possible, divide it
+  while (count < 32)
   {
-    dividend -= divisor;
-    quotient++;
+    // update remainder with next digit
+    rem = (rem << 1) | ((dividend >> 31) & 1);
+
+    // update quotient
+    quotient = quotient << 1;
+
+    // divisor goes into remainder exactly once
+    // update quotient and remainder
+    if (rem >= divisor)
+    {
+      quotient = quotient | 1;
+      rem = rem - divisor;
+    }
+
+    // update dividend for next digit
+    dividend = dividend << 1;
+
+    count++;
   }
+
+
 
   // edge case: int_min
   if (dividend_int_min) {
-    dividend = dividend + 1; // add the 1 back
-    if (dividend >= divisor) {
-      dividend -= divisor;
+    rem = rem + 1; // add the 1 back
+    if (rem >= divisor) {
       quotient++;
     }
   }
@@ -67,7 +97,7 @@ int main()
 {
   vector<pair<int, int>> test;
   test.push_back(make_pair(0, 1));
-  test.push_back(make_pair(0x8000'0000, -1));
+  test.push_back(make_pair(INT_MIN, -1));
   test.push_back(make_pair(3, 2));
   test.push_back(make_pair(10, 2));
   test.push_back(make_pair(10, 3));
