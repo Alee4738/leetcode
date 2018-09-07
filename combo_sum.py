@@ -2,9 +2,21 @@ import unittest
 
 
 def combo_sum(candidates, target):
-    answers = []
-    combo_sum_dfs_tree(candidates, target, 0, [], answers)
-    return answers
+    return list(combo_sum_gen(candidates, target, 0, []))
+
+
+def combo_sum_gen(candidates, target, start, path):
+    for i in range(start, len(candidates)):
+        if candidates[i] == target:
+            path.append(candidates[i])
+            yield path.copy()
+            path.pop()
+        elif candidates[i] < target:
+            path.append(candidates[i])
+            generator = combo_sum_gen(candidates, target - candidates[i], i, path)
+            for whole_path in generator:
+                yield whole_path
+            path.pop()
 
 
 def combo_sum_dfs_tree(candidates, target, start, path, answers):
