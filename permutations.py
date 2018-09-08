@@ -9,7 +9,7 @@ import unittest
 #     return list(list(p) for p in itertools.permutations(nums))
 
 
-# my own solution
+# recursive head/tail soln
 def permute(nums):
     if not nums:
         return []
@@ -34,3 +34,6 @@ class TestPermute(unittest.TestCase):
         self.assertListEqual(sorted(permute([1, 2, 3])), [
                              [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]
         ])
+
+    def test_single_digit(self):
+        self.assertListEqual(sorted(permute([5])), [[5]])
