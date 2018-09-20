@@ -25,7 +25,18 @@ def groupAnagrams(strs):
     """
     anagrams = {}
     for s in strs:
-        key = ''.join(sorted(s))
+        # key is a dictionary of character:freq
+        # anagrams will have the same key
+        key = {}
+        for c in s:
+            freq = key.get(c)
+            if freq:
+                key[c] = freq + 1
+            else:
+                key[c] = 1
+        # make key hashable
+        key = frozenset(key.items())
+
         anagram_list = anagrams.get(key)
         if anagram_list:
             anagram_list.append(s)
