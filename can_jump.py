@@ -25,26 +25,20 @@ def canJump(nums):
     :type nums: List[int]
     :rtype: bool
     """
-    if nums == []:
+    if not nums:
         return False
     elif len(nums) == 1:
         return True
 
-    # depth first search, adding all possible next destinations
+    # work backwards, constantly changing the goal to lower indices
     goal_idx = len(nums) - 1
+    curr_idx = len(nums) - 2
+    while curr_idx >= 0:
+        if curr_idx + nums[curr_idx] >= goal_idx:   # we can reach the goal from current index
+            goal_idx = curr_idx # make current index the new goal
+        curr_idx = curr_idx - 1
 
-    def can_jump(curr_idx):
-        if curr_idx + nums[curr_idx] >= goal_idx:
-            return True
-
-        # try to jump the farthest, then jump 1 less and 1 less
-        # edge case: ignore when array tells us we can jump 0
-        for i in range(nums[curr_idx], 0, -1):
-            if can_jump(curr_idx + i):
-                return True
-        return False
-
-    return can_jump(0)
+    return goal_idx == 0
 
 
 assert(canJump([2,3,1,1,4]))
