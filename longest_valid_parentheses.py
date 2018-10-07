@@ -20,82 +20,44 @@ def longest_valid_parentheses(s):
     :type s: str
     :rtype: int
     """
-    memo = set()
+    valid_parens = {}  # key: start index, val: end index
+    open_parens = []    # indices of open parentheses as stack
 
-    def valid_parentheses(start, end):
-        if start == end:
-            return True
-        if start == end:
-            return True
-        if start > end:
-            return False
-        if end - start == 1:
-            return False
-        if end - start == 2 and s[start] == '(' and s[end - 1] == ')':
-            return True
-        if (start, end) in memo:
-            return True
-
-        for i in range(start + 1, end):
-            if valid_parentheses(start, i) and s[i] == '(' and s[end - 1] == ')' \
-                    and valid_parentheses(i + 1, end - 1):
-                memo.add((start, i))
-                memo.add((i, end))
-                return True
-        return False
-
-
-
-
-
-        # if start == end:
-        #     return True
-        # if start > end:
-        #     return False
-        # if end - start == 1:
-        #     return False
-        # if end - start == 2 and s[start] == '(' and s[end - 1] == ')':
-        #     return True
-        # if (start, end) in memo:
-        #     return True
-        #
-        # if s[start] == '(' and s[end - 1] == ')':
-        #     # (valid_paren)
-        #     if valid_parentheses(start + 1, end - 1):
-        #         memo.add((start, end))
-        #         return True
-        # if s[start] == '(' and s[start + 1] == ')':
-        #     # ()valid_paren
-        #     if valid_parentheses(start + 2, end):
-        #         memo.add((start, end))
-        #         return True
-        # if s[end - 2] == '(' and s[end - 1] == ')':
-        #     # valid_paren()
-        #     if valid_parentheses(start, end - 2):
-        #         memo.add((start, end))
-        #         return True
-        # return False
-
-    # fill the memo
+    # find substrings matching '(valid_paren)' pattern.
+    # note: does not combine '()()' into a single substring,
+    # so only strings like '((()))' '(())' '()' will match
     for i in range(len(s)):
-        for j in range(i + 2, len(s) + 1):
-            valid_parentheses(i, j)
-    # valid_parentheses(0, len(s))
+        if s[i] == '(':
+            open_parens.append(i)
 
-    # find max length
-    max_length = 0
-    for valid_paren in memo:
-        length = valid_paren[1] - valid_paren[0]
-        if length > max_length:
-            max_length = length
+        # combine with last seen open paren, if there is one
+        elif len(open_parens) > 0:
+            valid_parens[open_parens.pop()] = i
 
-    return max_length
+    # combine '(valid_paren)(valid_paren)' into single substring
+    # optimization: only care about max length, so it's ok to overwrite valid parens
+    # if we know they're shorter than others.
+    # The valid parens that can extend are shorter than their extended versions.
+    max_len = 0
+    for start in range(len(s)):
+        # extend valid paren substring as far as possible
+        end = valid_parens.get(start)
+        while end:
+            next_end = valid_parens.get(end + 1)
+            if next_end:
+                valid_parens[start] = next_end
+            end = next_end
+
+        max_len = max(max_len, valid_parens.get(start, start - 1) - start + 1)
+
+    return max_len
 
 
 assert(longest_valid_parentheses('(()') == 2)
 assert(longest_valid_parentheses(')()())') == 4)
 assert(longest_valid_parentheses('((()(()))(()') == 8)
 assert(longest_valid_parentheses(')((())(()())(()') == 10)
+assert(longest_valid_parentheses(')()())()()(') == 4)
 
 # 0 1 2 3 4 5 6 7 8 9 0 1
 # '( ( ( ) ( ( ) ) ) ( ( )'
