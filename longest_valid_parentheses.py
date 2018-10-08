@@ -20,37 +20,30 @@ def longest_valid_parentheses(s):
     :type s: str
     :rtype: int
     """
-    valid_parens = {}  # key: start index, val: end index
-    open_parens = []    # indices of open parentheses as stack
+    if not s:
+        return 0
 
-    # find substrings matching '(valid_paren)' pattern.
-    # note: does not combine '()()' into a single substring,
-    # so only strings like '((()))' '(())' '()' will match
+    stack = []
+    dp = [0] * len(s)
+
     for i in range(len(s)):
-        if s[i] == '(':
-            open_parens.append(i)
+        if s[i] == "(":
+            stack.append(i)
+            dp[i] = 0
+        else:  # we have a closing brace
+            if len(stack) == 0:
+                dp[i] = 0
+            else:
+                pos = stack.pop()
+                dp[i] = dp[pos - 1] + i - pos + 1
+    return max(dp)
 
-        # combine with last seen open paren, if there is one
-        elif len(open_parens) > 0:
-            valid_parens[open_parens.pop()] = i
-
-    # combine '(valid_paren)(valid_paren)' into single substring
-    # optimization: only care about max length, so it's ok to overwrite valid parens
-    # if we know they're shorter than others.
-    # The valid parens that can extend are shorter than their extended versions.
-    max_len = 0
-    for start in range(len(s)):
-        # extend valid paren substring as far as possible
-        end = valid_parens.get(start)
-        while end:
-            next_end = valid_parens.get(end + 1)
-            if next_end:
-                valid_parens[start] = next_end
-            end = next_end
-
-        max_len = max(max_len, valid_parens.get(start, start - 1) - start + 1)
-
-    return max_len
+    # Understanding the key line: dp[i] = dp[pos - 1] + i - pos + 1
+    # "nested paren substring" means a parentheses substring of the form '(())' or '((()))' but not '()()'.
+    # pos represents the starting index of the current nested paren substring
+    # i - pos + 1 is the length of the nested valid paren substring
+    # dp[pos - 1] is the length of the previous valid paren substring
+    # (not necessarily only nested) that ends at s[pos - 1]
 
 
 assert(longest_valid_parentheses('(()') == 2)
@@ -58,7 +51,6 @@ assert(longest_valid_parentheses(')()())') == 4)
 assert(longest_valid_parentheses('((()(()))(()') == 8)
 assert(longest_valid_parentheses(')((())(()())(()') == 10)
 assert(longest_valid_parentheses(')()())()()(') == 4)
-
-# 0 1 2 3 4 5 6 7 8 9 0 1
-# '( ( ( ) ( ( ) ) ) ( ( )'
+assert(longest_valid_parentheses('()((())))()') == 8)
+assert(longest_valid_parentheses('))()(())((())))(((())))') == 12)
 
