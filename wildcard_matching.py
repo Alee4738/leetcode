@@ -57,66 +57,26 @@ def wildcard_match(s, p):
     """
     :param s: the string to be matched against
     :param p: the pattern (which contains * and ?) to use for matching
-    :return:
+    :return: bool, s matches p
     """
-    # optimization: squeeze consecutive '*' together
-    p = list(p)
-    last_star = -2
-    i = 0
-    while i < len(p):
-        if p[i] == '*':
-            if last_star == i - 1:
-                del p[i]
-                i = i - 1
-            else:
-                last_star = i
-        i = i + 1
+    # solution copied from https://leetcode.com/problems/wildcard-matching/discuss/138878/Finite-state-machine-with-Python-and-dictionary.-13-lines-O(p%2Bs)-time
+    transfer = {}
+    state = 0
 
-    # key: (s_start, p_start), value: return value of match(s_start, p_start) (see below)
-    memo = {}
-
-    def is_match(s_start, p_start):
-        """
-        :param s_start: index of s to start matching
-        :param p_start: index of p to start matching
-        :return: bool, starting from s[s_start] and p[p_start], it is a match
-        """
-        # case: s empty, p empty
-        if s_start == len(s) and p_start == len(p):
-            return True
-        # case: s not empty, p empty (so nothing to match chars in s)
-        if s_start != len(s) and p_start == len(p):
-            return False
-        # dynamic programming part: use memo
-        if (s_start, p_start) in memo:
-            return memo[(s_start, p_start)]
-
-        # match single characters
-        if p[p_start] != '*':
-            # case: s empty, p not empty and non-*
-            if s_start == len(s):
-                memo[(s_start, p_start)] = False
-                return False
-            # case: s not empty, p not empty and non-*
-            else:
-                if s[s_start] == p[p_start] or p[p_start] == '?':
-                    memo[(s_start, p_start)] = is_match(s_start + 1, p_start + 1)
-                    return memo[(s_start, p_start)]
-                else:
-                    memo[(s_start, p_start)] = False
-                    return False
-
-        # match wildcard (*), p[p_start] == '*'
+    for char in p:
+        if char == '*':
+            transfer[state, char] = state
         else:
-            # match from 0 chars in s to the rest of s
-            for next_s_start in range(s_start, len(s) + 1):
-                if is_match(next_s_start, p_start + 1):
-                    memo[(s_start, p_start)] = True
-                    return True
-            memo[(s_start, p_start)] = False
-            return False
+            transfer[state, char] = state + 1
+            state += 1
 
-    return is_match(0, 0)
+    accept = state
+    state = set([0])
+
+    for char in s:
+        state = set([transfer.get((at, token)) for at in state for token in [char, '*', '?']])
+
+    return accept in state
 
 
 class TestWildcardMatch(unittest.TestCase):
