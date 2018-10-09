@@ -26,28 +26,34 @@ def maxSubArray(nums):
     if len(nums) == 1:
         return nums[0]
 
-    # memoize sums
-    sums = {}
+    curr_sum = max_sum = nums[0]
+    gap = 0
+    # for each number to potentially add to sum, there are 3 choices
+    for i in range(1, len(nums)):
+        potential_add = nums[i]
 
-    def helper(start, end):
-        if start == end:
-            sums[(start, end)] = nums[start]
-            return nums[start]
-        elif (start, end) in sums:
-            return sums[(start, end)]
+        # 1. Assimilate into sum
+        if gap + potential_add > 0 and curr_sum + gap > 0:
+            curr_sum += gap + potential_add
+            gap = 0
 
-        if (start, end - 1) in sums:
-            sums[(start, end)] = helper(start, end - 1) + nums[end]
+        # 2. Keep sum the same
+        elif gap + potential_add <= 0 and curr_sum > potential_add:
+            # increase the gap for next time
+            gap += potential_add
+            if curr_sum + gap < 0:
+                # no one will save you because you're not worth the gap
+                max_sum = max(max_sum, curr_sum)
+                # reset current sum to a placeholder
+                curr_sum = potential_add
+
+        # 3. Jump from current sum to new larger sum
         else:
-            sums[(start, end)] = helper(start + 1, end) + nums[start]
+            curr_sum = potential_add
+            gap = 0
 
-        return sums[(start, end)]
-
-    for i in range(len(nums)):
-        for j in range(i, len(nums)):
-            helper(i, j)
-
-    return max(sums.values())
+    max_sum = max(max_sum, curr_sum)
+    return max_sum
 
 
 class TestMaxSubArray(unittest.TestCase):
@@ -70,7 +76,6 @@ class TestMaxSubArray(unittest.TestCase):
             3, 4, 1, -1, -2
         ]), 8)
 
-
     def test_neg_pos(self):
         self.assertEqual(maxSubArray([
             -1, 1
@@ -91,6 +96,9 @@ class TestMaxSubArray(unittest.TestCase):
 
     def test_full_random(self):
         self.assertEqual(maxSubArray([
+            -2, -1
+        ]), -1)
+        self.assertEqual(maxSubArray([
             4, 8, -4, 7, -1, -2, -2, 10, 5, -20, -4, 7
         ]), 25)
         self.assertEqual(maxSubArray([
@@ -106,7 +114,21 @@ class TestMaxSubArray(unittest.TestCase):
             -4, 4, 1
         ]), 5)
 
+    def test_leave_behind(self):
+        self.assertEqual(maxSubArray([
+            2, -1, -2, -1, 2, -1, 2, 2, 3
+        ]), 8)
+        self.assertEqual(maxSubArray([
+            4, -5, 4, -1, 4
+        ]), 7)
+
     def test_leetcode(self):
+        self.assertEqual(maxSubArray([
+            -98, 50, 41, 13, -63, -59, 10, -49, -38, -70, 56, 77, 68, 95, -73, 26, -73, 20, -14, 83, 91
+        ]), 356)
+        self.assertEqual(maxSubArray([
+            61, -50, -9, -40, 1, 11, -88, -80, 21, 89, 97, -29, 8, 10, -15, 48, 97, 35, 86
+        ]), 447)
         self.assertEqual(maxSubArray([
             -57, 9, -72, -72, -62, 45, -97, 24, -39, 35, -82, -4, -63, 1, -93, 42, 44, 1, -75, -25, -87, -16, 9, -59,
              20, 5, -95, -41, 4, -30, 47, 46, 78, 52, 74, 93, -3, 53, 17, 34, -34, 34, -69, -21, -87, -86, -79, 56, -9,
@@ -522,4 +544,5 @@ class TestMaxSubArray(unittest.TestCase):
              48, 8, -57, -25, 92, -25, 77, 97, -85, 25, -45, -2, -71, 2, 78, 98, 56, -5, -30, -91, 73, -85, 10, 80, 93,
              76, 48, -44, 72, -58, -83, 20, 49, -64, 94, 18, 11, 48, 16, 2, -26, 47, 99, -21, -50, 55, -23, -94, -73,
              46, -85
-             ]), 11081)
+         ]), 11081)
+
