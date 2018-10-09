@@ -21,39 +21,11 @@ def maxSubArray(nums):
     :type nums: List[int]
     :rtype: int
     """
-    if not nums:
-        return 0
-    if len(nums) == 1:
-        return nums[0]
-
-    curr_sum = max_sum = nums[0]
-    gap = 0
-    # for each number to potentially add to sum, there are 3 choices
-    for i in range(1, len(nums)):
-        potential_add = nums[i]
-
-        # 1. Assimilate into sum
-        if gap + potential_add > 0 and curr_sum + gap > 0:
-            curr_sum += gap + potential_add
-            gap = 0
-
-        # 2. Keep sum the same
-        elif gap + potential_add <= 0 and curr_sum > potential_add:
-            # increase the gap for next time
-            gap += potential_add
-            if curr_sum + gap < 0:
-                # no one will save you because you're not worth the gap
-                max_sum = max(max_sum, curr_sum)
-                # reset current sum to a placeholder
-                curr_sum = potential_add
-
-        # 3. Jump from current sum to new larger sum
-        else:
-            curr_sum = potential_add
-            gap = 0
-
-    max_sum = max(max_sum, curr_sum)
-    return max_sum
+    res, cur = nums[0], nums[0]
+    for n in nums[1:]:
+        cur = max(cur + n, n)
+        res = max(cur, res)
+    return res
 
 
 class TestMaxSubArray(unittest.TestCase):
