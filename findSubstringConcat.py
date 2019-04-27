@@ -65,7 +65,6 @@ def findSubstring(s: str, words: List[str]) -> List[int]:
 			if windowSize == numWords and currWords == wordsFreq:
 				result.append(index - (numWords * wordSize) + wordSize)
 
-
 	# print()
 	return result
 
