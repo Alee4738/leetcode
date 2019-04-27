@@ -35,49 +35,38 @@ def findSubstring(s: str, words: List[str]) -> List[int]:
 	result = []
 
 	for start in range(wordSize):
-		# starting with index start, split entire string into a word list,
-		# which has words of size wordSize
-		wordList = []
-		for i in range(start, len(s), wordSize):
-			if i+wordSize <= len(s):
-				wordList.append((s[i:(i+wordSize)], i))
-
-		print(wordList)
-
-		
 		# consider each numWords-length sublist of the word list
-		# for i in range(len(wordList) - numWords + 1):
-		# 	currWords = {}
-		# 	for word, index in wordList[i:(i+numWords)]:
-		# 		currWords[word] = currWords.setdefault(word, 0) + 1
-
-		# 	if currWords == wordsFreq:
-		# 		result.append(wordList[i][1])
 		currWords = {}
 		windowSize = 0
-		print("num words: " + str(numWords) + " , wordSize: " + str(wordSize))
-		for word, index in wordList:
+		# print("num words: " + str(numWords) + " , wordSize: " + str(wordSize))
+		for index in range(start, len(s), wordSize):
+			if index + wordSize > len(s):
+				break
+			
+			word = s[index:(index + wordSize)]
+			
 			if windowSize < numWords:
 				currWords[word] = currWords.setdefault(word, 0) + 1
 				windowSize += 1
 			else:
 				# remove leftmost word of current words
 				wordToRemove = s[index - (numWords * wordSize):index - (numWords * wordSize) + wordSize]
-				print("word to remove: " + wordToRemove)
-				print(currWords)
+				# print("word to remove: " + wordToRemove)
+				# print(currWords)
 				currWords[wordToRemove] = currWords.setdefault(wordToRemove, 0) - 1
 				if currWords[wordToRemove] == 0:
 					del currWords[wordToRemove]
-				print(currWords)
+				# print(currWords)
 
 				# add word
 				currWords[word] = currWords.setdefault(word, 0) + 1
-				print(currWords)
+				# print(currWords)
 
 			if windowSize == numWords and currWords == wordsFreq:
 				result.append(index - (numWords * wordSize) + wordSize)
 
-	print()
+
+	# print()
 	return result
 
 
