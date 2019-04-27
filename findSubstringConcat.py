@@ -42,19 +42,42 @@ def findSubstring(s: str, words: List[str]) -> List[int]:
 			if i+wordSize <= len(s):
 				wordList.append((s[i:(i+wordSize)], i))
 
-		# print(wordList)
+		print(wordList)
 
 		
 		# consider each numWords-length sublist of the word list
-		for i in range(len(wordList) - numWords + 1):
-			currWords = {}
-			for word, index in wordList[i:(i+numWords)]:
+		# for i in range(len(wordList) - numWords + 1):
+		# 	currWords = {}
+		# 	for word, index in wordList[i:(i+numWords)]:
+		# 		currWords[word] = currWords.setdefault(word, 0) + 1
+
+		# 	if currWords == wordsFreq:
+		# 		result.append(wordList[i][1])
+		currWords = {}
+		windowSize = 0
+		print("num words: " + str(numWords) + " , wordSize: " + str(wordSize))
+		for word, index in wordList:
+			if windowSize < numWords:
 				currWords[word] = currWords.setdefault(word, 0) + 1
+				windowSize += 1
+			else:
+				# remove leftmost word of current words
+				wordToRemove = s[index - (numWords * wordSize):index - (numWords * wordSize) + wordSize]
+				print("word to remove: " + wordToRemove)
+				print(currWords)
+				currWords[wordToRemove] = currWords.setdefault(wordToRemove, 0) - 1
+				if currWords[wordToRemove] == 0:
+					del currWords[wordToRemove]
+				print(currWords)
 
-			if currWords == wordsFreq:
-				result.append(wordList[i][1])
+				# add word
+				currWords[word] = currWords.setdefault(word, 0) + 1
+				print(currWords)
 
-	# print()
+			if windowSize == numWords and currWords == wordsFreq:
+				result.append(index - (numWords * wordSize) + wordSize)
+
+	print()
 	return result
 
 
