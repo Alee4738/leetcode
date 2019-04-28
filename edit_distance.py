@@ -1,5 +1,4 @@
 import unittest
-import numpy as np
 
 def minDistance(word1, word2):
   """
@@ -9,13 +8,13 @@ def minDistance(word1, word2):
   """
   len1, len2 = len(word1), len(word2)
   highestDistance = max(len1, len2)
-  # dist = []
-  # dist = [ [highestDistance for _ in range(len1+1)] for _ in range(len2+1)]
-  dist = np.full((len1+1, len2+1), highestDistance, dtype=int)
+  dist = [ [highestDistance for _ in range(len2+1)] for _ in range(len1+1)]
   
   # initialize
-  dist[:, len2] = range(len1, -1, -1)
-  dist[len1, :] = range(len2, -1, -1)
+  for i in range(len1, -1, -1):
+    dist[i][len2] = len1 - i
+  for j in range(len2, -1, -1):
+    dist[len1][j] = len2 - j
   
   def helper(i, j):
     # min distance between word1[i:] and word2[j:]
