@@ -44,19 +44,19 @@ Output: "/a/b/c"
 
 """
 def simplifyPath(path: str) -> str:
-	res = []
-	directories = path.split('/')
+  res = []
+  directories = path.split('/')
 
-	for directory in directories:
-		if directory == '..':
-			if len(res) > 0:
-				res.pop()
-		elif directory not in ['', '.']:
-			res.append(directory)
+  for directory in directories:
+    if directory == '..':
+      if len(res) > 0:
+        res.pop()
+    elif directory not in ['', '.']:
+      res.append(directory)
 
-	# make canonical path
-	if res == []:
-		return '/'
-	else:
-		res[0] = '/' + res[0]
-		return '/'.join(res)
+  # make canonical path
+  if res == []:
+    return '/'
+  else:
+    res[0] = '/' + res[0]
+    return '/'.join(res)
