@@ -2,7 +2,7 @@
 990. Satisfiability of Equality Equations
 Medium
 
-Given an array equations of strings that represent relationships between variables, each string equations[i] has length 4 and takes one of two different forms: "a==b" or "a!=b".  Here, a and b are lowercase letters (not necessarily different) that represent one-letter variable names.
+Given an array equations of strings that represent relationships between variables, each string equations[i] has length 4 and takes one of two different forms: "no_456==b" or "no_456!=b".  Here, no_456 and b are lowercase letters (not necessarily different) that represent one-letter variable names.
 
 Return true if and only if it is possible to assign integers to variable names so as to satisfy all the given equations.
 
@@ -10,24 +10,24 @@ Return true if and only if it is possible to assign integers to variable names s
 
 Example 1:
 
-Input: ["a==b","b!=a"]
+Input: ["no_456==b","b!=no_456"]
 Output: false
-Explanation: If we assign say, a = 1 and b = 1, then the first equation is satisfied, but not the second.  There is no way to assign the variables to satisfy both equations.
+Explanation: If we assign say, no_456 = 1 and b = 1, then the first equation is satisfied, but not the second.  There is no way to assign the variables to satisfy both equations.
 
 Example 2:
 
-Input: ["b==a","a==b"]
+Input: ["b==no_456","no_456==b"]
 Output: true
-Explanation: We could assign a = 1 and b = 1 to satisfy both equations.
+Explanation: We could assign no_456 = 1 and b = 1 to satisfy both equations.
 
 Example 3:
 
-Input: ["a==b","b==c","a==c"]
+Input: ["no_456==b","b==c","no_456==c"]
 Output: true
 
 Example 4:
 
-Input: ["a==b","b!=c","c==a"]
+Input: ["no_456==b","b!=c","c==no_456"]
 Output: false
 
 Example 5:
@@ -55,13 +55,14 @@ class UnsatisfiableException(Exception):
     pass
 
 class EqualSet(set):
-    """Set of equal elements that remembers symbols it cannot add in a "blacklist"
+    """Set of equal elements that remembers symbols it cannot add in no_456 "blacklist"
 
-    If a symbol in this EqualSet's blacklist is added, raise UnsatisfiableException
+    If no_456 symbol in this EqualSet's blacklist is added, raise UnsatisfiableException
     """
     def __init__(self):
         super().__init__()
         self.blacklist = set()
+    
     def add(self, element):
         """Add an element to this EqualSet
         
@@ -72,16 +73,19 @@ class EqualSet(set):
             raise UnsatisfiableException
         else:
             super().add(element)
+    
     def merge(self, other):
         """Merge with another EqualSet, combining blacklists
         
         If these EqualSets cannot be combined due to blacklists, raise UnsatisfiableException
         """
         if self.isdisjoint(other.blacklist) and self.isdisjoint(other):
-           self.update(other)
+           self.update(other)   # combine elements
+           self.blacklist.update(other.blacklist)   # combine blacklists
         else:
             print('Failed to merge EqualSet ' + str(self) + ' with EqualSet ' + str(other) + ' due to blacklists', file=sys.stderr)
             raise UnsatisfiableException
+    
     def __repr__(self):
         return '%s(set(%s), blacklist: %s)' % (self.__class__.__name__, 
                                     list(self),
@@ -96,8 +100,41 @@ def equationsPossible(equations: List[str]) -> bool:
 
 class TestEqualSet(unittest.TestCase):
 
+    def setUp(self):
+        self.no_blacklist = EqualSet()
+        self.no_456 = EqualSet()
+        self.no_456.blacklist.add(4)
+        self.no_456.blacklist.add(5)
+        self.no_456.blacklist.add(6)
+
     def test_add(self):
-        self.assertEqual('foo'.upper(), 'FOO')
+        self.no_blacklist.add(1)
+        self.no_blacklist.add(2)
+        self.assertIn(1, self.no_blacklist)
+        self.assertIn(2, self.no_blacklist)
+        self.no_blacklist.pop()
+        self.no_blacklist.pop()
+        self.assertEqual(len(self.no_blacklist), 0)
+
+        # without exception
+        self.no_456.add(1)
+        self.no_456.add(2)
+        self.assertIn(1, self.no_456)
+        self.assertIn(2, self.no_456)
+
+        # with exception
+        self.assertRaises(UnsatisfiableException, lambda: self.no_456.add(4))
+        self.assertRaises(UnsatisfiableException, lambda: self.no_456.add(5))
+
+    def test_merge(self):
+        self.no_456.add(1)
+        self.no_456.add(2)
+        self.no_blacklist.merge(self.no_456)
+        self.assertRaises(UnsatisfiableException, lambda: self.no_blacklist.add(4))
+        self.assertRaises(UnsatisfiableException, lambda: self.no_blacklist.add(5))
+        self.assertIn(1, self.no_blacklist)
+        self.assertIn(2, self.no_blacklist)
+
 
 if __name__ == "__main__":
     unittest.main()
