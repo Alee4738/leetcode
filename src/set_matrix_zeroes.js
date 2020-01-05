@@ -39,23 +39,23 @@ Follow up:
 
 
 */
- */
+ * /
 /**
  * @param {number[][]} matrix
  * @return {void} Do not return anything, modify matrix in-place instead.
  */
-var setZeroes = function(matrix) {
+var setZeroes = function (matrix) {
   if (matrix.length === 0 || matrix[0].length === 0) {
     return;
   }
-  
+
   let m = matrix.length;
   let n = matrix[0].length;
-  
+
   // the rows and cols that will be set to 0
   let rows = new Array(m);
   let cols = new Array(n);
-  
+
   // record all existing 0s
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
@@ -65,14 +65,14 @@ var setZeroes = function(matrix) {
       }
     }
   }
-  
+
   // set rows to 0
   rows.map((_, r) => {
     for (let c = 0; c < n; c++) {
       matrix[r][c] = 0;
     }
   });
-  
+
   // set cols to 0
   cols.map((_, c) => {
     for (let r = 0; r < m; r++) {
