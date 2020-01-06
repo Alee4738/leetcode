@@ -1,0 +1,22 @@
+{
+  "name": "leetcode",
+  "version": "1.0.0",
+  "description": "Andrew's personal leetcode repository with questions, solutions, and tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alee4738/leetcode.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alee4738/leetcode/issues"
+  },
+  "homepage": "https://github.com/Alee4738/leetcode#readme",
+  "devDependencies": {
+    "jasmine": "^3.5.0"
+  }
+}
