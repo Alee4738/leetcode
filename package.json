@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Alee4738/leetcode#readme",
   "devDependencies": {
-    "jasmine": "^3.5.0"
+    "jasmine": "^3.5.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6"
   }
 }
