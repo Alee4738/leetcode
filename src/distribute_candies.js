@@ -21,24 +21,24 @@ The sister has two different kinds of candies, the brother has only one kind of 
  * @param {number[]} candies
  * @return {number}
  */
-var distributeCandies = function(candies) {
+var distributeCandies = function (candies) {
   let sis = {};
   let num_bro = 0; // num candies bro has
-  
+
   // sister takes new candy first
   // if brother didn't get enough, give him only what sis owes
-  candies.map(type => {
+  candies.map((type) => {
     if (!sis[type]) {
       sis[type] = 1;
     } else {
       num_bro++;
     }
   });
-  
+
   let num_sis = Object.keys(sis).length;
   if (num_sis > num_bro) {
     // share
-    num_sis = Math.floor((num_sis + num_bro)/2);
+    num_sis = Math.floor((num_sis + num_bro) / 2);
   }
   return num_sis;
 };

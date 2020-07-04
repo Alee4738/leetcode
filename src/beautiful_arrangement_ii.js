@@ -25,16 +25,16 @@ Note:
  * @param {number} k
  * @return {number[]}
  */
-var constructArray = function(n, k) {
+var constructArray = function (n, k) {
   if (k === 1) {
-    return Array.from(Array(n), (v, i) => i+1);
+    return Array.from(Array(n), (v, i) => i + 1);
   } else {
     // make an array such that the differences are
     // [1, 2, 3, ..., k, 1, 1, 1, ... 1]
     let ret = [Math.floor(k / 2) + 1];
     let nextDiff = 1;
-    let goUp = (k % 2 === 1); // look up or down to find correct number
-    
+    let goUp = k % 2 === 1; // look up or down to find correct number
+
     // make 1,2,...,k
     while (nextDiff <= k) {
       // find number num that satisfies
@@ -43,21 +43,21 @@ var constructArray = function(n, k) {
       // we use the parity of k and alternate
       let num;
       if (goUp) {
-        num = ret[nextDiff-1] + nextDiff;
+        num = ret[nextDiff - 1] + nextDiff;
       } else {
-        num = ret[nextDiff-1] - nextDiff;
+        num = ret[nextDiff - 1] - nextDiff;
       }
       ret.push(num);
-      
+
       goUp = !goUp;
       nextDiff++;
     }
-    
+
     // make 1,1,...1
     for (let i = nextDiff + 1; i <= n; i++) {
       ret.push(i);
     }
-    
+
     return ret;
   }
 };

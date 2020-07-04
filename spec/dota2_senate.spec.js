@@ -1,52 +1,87 @@
-let predictPartyVictory = require('../src/dota2_senate');
+let predictPartyVictory = require("../src/dota2_senate");
 
-describe('predictPartyVictory', () => {
-    it('RD', () => {
-        //arrange
-        let senate = 'RD';
+describe("predictPartyVictory", () => {
+  it("R", () => {
+    //arrange
+    let senate = "R";
 
-        //act
-        let actualWinner = predictPartyVictory(senate);
+    //act
+    let actualWinner = predictPartyVictory(senate);
 
-        //assert
-        let expectedWinner = 'R';
-        expect(actualWinner).toBe(expectedWinner);
-    });
+    //assert
+    let expectedWinner = "Radiant";
+    expect(actualWinner).toBe(expectedWinner);
+  });
 
-    it('RDD', () => {
-        //arrange
-        let senate = 'RDD';
+  it("D", () => {
+    //arrange
+    let senate = "D";
 
-        //act
-        let actualWinner = predictPartyVictory(senate);
+    //act
+    let actualWinner = predictPartyVictory(senate);
 
-        //assert
-        let expectedWinner = 'D';
-        expect(actualWinner).toBe(expectedWinner);
-    });
+    //assert
+    let expectedWinner = "Dire";
+    expect(actualWinner).toBe(expectedWinner);
+  });
 
-    it('RDDRRDR over after a single round', () => {
-        //arrange
-        let senate = 'RDDRRDR';
+  it("RD", () => {
+    //arrange
+    let senate = "RD";
 
-        //act
-        let actualWinner = predictPartyVictory(senate);
+    //act
+    let actualWinner = predictPartyVictory(senate);
 
-        //assert
-        let expectedWinner = 'R';
-        expect(actualWinner).toBe(expectedWinner);
-    });
+    //assert
+    let expectedWinner = "Radiant";
+    expect(actualWinner).toBe(expectedWinner);
+  });
 
-    it('RDDRDRRD goes for multiple rounds', () => {
-        //arrange
-        let senate = 'RDDRDRRD';
+  it("RDD", () => {
+    //arrange
+    let senate = "RDD";
 
-        //act
-        let actualWinner = predictPartyVictory(senate);
+    //act
+    let actualWinner = predictPartyVictory(senate);
 
-        //assert
-        let expectedWinner = 'R';
-        expect(actualWinner).toBe(expectedWinner);
-    });
+    //assert
+    let expectedWinner = "Dire";
+    expect(actualWinner).toBe(expectedWinner);
+  });
+
+  it("RDDRRDR over after a single round", () => {
+    //arrange
+    let senate = "RDDRRDR";
+
+    //act
+    let actualWinner = predictPartyVictory(senate);
+
+    //assert
+    let expectedWinner = "Radiant";
+    expect(actualWinner).toBe(expectedWinner);
+  });
+
+  it("RDDRDRRD goes for multiple rounds", () => {
+    //arrange
+    let senate = "RDDRDRRD";
+
+    //act
+    let actualWinner = predictPartyVictory(senate);
+
+    //assert
+    let expectedWinner = "Radiant";
+    expect(actualWinner).toBe(expectedWinner);
+  });
+
+  it("DDRRR leetcode returns D", () => {
+    //arrange
+    let senate = "DDRRR";
+
+    //act
+    let actualWinner = predictPartyVictory(senate);
+
+    //assert
+    let expectedWinner = "Dire";
+    expect(actualWinner).toBe(expectedWinner);
+  });
 });
-

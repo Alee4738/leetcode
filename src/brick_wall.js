@@ -24,37 +24,37 @@ Output: 2
  * @param {number[][]} wall
  * @return {number}
  */
-var leastBricks = function(wall) {
+var leastBricks = function (wall) {
   // from top down, counting all the bricks you pass
   // if a row has all 1-length bricks (n bricks), then there are n+1 cracks
   let m = wall.length; // rows
   let n = wall[0].reduce((acc, c) => acc + c) + 1; // columns
   let crossed = {}; // max number of keys is n+1, one for each crack represented by index 0,...,n
-  
-  let findCracks = function(row) {
+
+  let findCracks = function (row) {
     let pos = []; // indices of cracks
     let ltr = 0; // left-to-right counter
     row.map((width, i) => {
       ltr += width;
-      if (i !== row.length-1) {
+      if (i !== row.length - 1) {
         pos.push(ltr);
       }
     });
     return pos;
-  }
-  
+  };
+
   // count into negatives (but that's ok because we'll do a min)
-  wall.map(row => {
+  wall.map((row) => {
     let cracks = findCracks(row);
-    cracks.map(i => {
+    cracks.map((i) => {
       if (crossed[i]) {
-        crossed[i] -= 1;  
+        crossed[i] -= 1;
       } else {
         crossed[i] = -1;
       }
     });
   });
-  
+
   console.log(crossed);
   let min = Math.min(...Object.values(crossed));
   if (min === Infinity) {

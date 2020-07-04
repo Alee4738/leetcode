@@ -24,25 +24,25 @@ Output:
  * @param {string[]} paths
  * @return {string[][]}
  */
-var findDuplicate = function(paths) {
+var findDuplicate = function (paths) {
   let content_map = {}; // map file content to list of directories
-  
-  paths.map(dir_info_str => {
+
+  paths.map((dir_info_str) => {
     let dir_info = dir_info_str.split(" ");
     let path = dir_info.shift();
-    
-    dir_info.map(file_str => {
+
+    dir_info.map((file_str) => {
       let file_arr = file_str.split(/[()]/);
       let filename = file_arr[0];
       let content = file_arr[1];
-      
+
       if (!content_map[content]) {
         content_map[content] = [];
       }
-      
+
       content_map[content].push(path + "/" + filename);
     });
   });
-  
-  return Object.values(content_map).filter(list => list.length > 1);
+
+  return Object.values(content_map).filter((list) => list.length > 1);
 };

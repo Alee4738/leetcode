@@ -2,11 +2,11 @@
  * @param {number[]} nums
  * @return {number}
  */
-var jump = function(nums) {
+var jump = function (nums) {
   if (nums.length <= 1) {
     return 0;
   }
-  
+
   // Greedy approach: find the person who can go the curr
   let n = nums.length;
   let numJumps = 0;

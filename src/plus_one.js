@@ -22,9 +22,9 @@ Explanation: The array represents the integer 4321.
  * @param {number[]} digits
  * @return {number[]}
  */
-var plusOne = function(digits) {
+var plusOne = function (digits) {
   let n = digits.length;
-  for (let i = n-1; i >= 0; i--) {
+  for (let i = n - 1; i >= 0; i--) {
     if (digits[i] < 9) {
       digits[i]++;
       return digits;
@@ -32,7 +32,7 @@ var plusOne = function(digits) {
       digits[i] = 0;
     }
   }
-  
+
   // at this point, everything was marked 0
   // so the number must have been 999...999
   digits[0] = 1;

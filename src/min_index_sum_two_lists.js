@@ -31,15 +31,15 @@ Note:
  * @param {string[]} list2
  * @return {string[]}
  */
-var findRestaurant = function(list1, list2) {
+var findRestaurant = function (list1, list2) {
   let ret = [];
   let min_sum = Infinity;
-  
+
   let pref1 = {};
   let pref2 = {};
   // map preference to index
-  list1.map((restaurant, i) => pref1[restaurant] = i);
-  
+  list1.map((restaurant, i) => (pref1[restaurant] = i));
+
   list2.map((restaurant, i) => {
     if (pref1[restaurant] >= 0) {
       let sum = i + pref1[restaurant];
@@ -52,6 +52,6 @@ var findRestaurant = function(list1, list2) {
       }
     }
   });
-  
+
   return ret;
 };

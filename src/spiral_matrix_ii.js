@@ -2,15 +2,15 @@
  * @param {number} n
  * @return {number[][]}
  */
-let generateMatrixByBox = function(m, i, acc) {
+let generateMatrixByBox = function (m, i, acc) {
   let bound = m.length - i - 1;
-  
+
   // base case
   if (bound - i === 0) {
     m[i][i] = acc++;
     return;
   }
-  
+
   // right
   for (let j = i; j < bound; j++) {
     m[i][j] = acc++;
@@ -27,14 +27,14 @@ let generateMatrixByBox = function(m, i, acc) {
   for (let j = bound; j > i; j--) {
     m[j][i] = acc++;
   }
-  
+
   // recurse if not another base case (2-size box)
   if (bound - i !== 1) {
-    generateMatrixByBox(m, i+1, acc);
+    generateMatrixByBox(m, i + 1, acc);
   }
-}
+};
 
-var generateMatrix = function(n) {
+var generateMatrix = function (n) {
   // approach: build squares
   let matrix = new Array(n);
   for (let i = 0; i < matrix.length; i++) {

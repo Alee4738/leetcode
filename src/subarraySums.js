@@ -16,17 +16,17 @@ Note:
  * @param {number} k
  * @return {number}
  */
-var subarraySum = function(nums, k) {
+var subarraySum = function (nums, k) {
   let n = nums.length;
   let ret = 0;
-  let prevSums = {0: 1}; // previous sums
+  let prevSums = { 0: 1 }; // previous sums
   let total = 0;
-  nums.map(val => {
+  nums.map((val) => {
     total += val;
-    if (prevSums[total-k]) {
-      ret += prevSums[total-k];
+    if (prevSums[total - k]) {
+      ret += prevSums[total - k];
     }
-    
+
     if (prevSums[total]) {
       prevSums[total] += 1;
     } else {
@@ -39,23 +39,23 @@ var subarraySum = function(nums, k) {
 /* 
 if they asked us to return the subarrays
 */
-var subarray = function(nums, k) {
+var subarray = function (nums, k) {
   let n = nums.length;
   let ret = [];
-  let prevSums = {0: [[0,-1]]}; // previous sums, in the form [start,end]
+  let prevSums = { 0: [[0, -1]] }; // previous sums, in the form [start,end]
   let total = 0;
 
   nums.map((val, i) => {
     total += val;
 
-    if (prevSums[total-k]) {
-      prevSums[total-k].map(interval => {
+    if (prevSums[total - k]) {
+      prevSums[total - k].map((interval) => {
         // console.log(interval);
-        ret.push([interval[1]+1, i]);
+        ret.push([interval[1] + 1, i]);
         // console.log(ret);
       });
     }
-    
+
     if (prevSums[total]) {
       prevSums[total].push([0, i]);
     } else {
@@ -64,4 +64,3 @@ var subarray = function(nums, k) {
   });
   return ret;
 };
-
