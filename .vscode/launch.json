@@ -7,10 +7,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Current File",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/node_modules/.bin/jasmine",
-      "args": ["${file}"]
+      "name": "Jasmine (TS) Current File",
+      "program": "${workspaceFolder}/node_modules/jasmine-ts/lib/index",
+      "args": [
+        "--config=./spec/support/jasmine.json",
+        "${file}"
+      ],
     }
   ]
 }
