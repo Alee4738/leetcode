@@ -12,11 +12,12 @@ My solutions to leetcode questions. Most of the solutions are in Python, but I'm
 npx jasmine-ts
 ```
 
-- To focus on a certain file
+- Jasmine supports focusing on or ignoring tests
 
-  - Go to the file
-  - Change `describe` to `fdescribe`
-  - Rerun npx jasmine-ts
+  - 'f' to focus on a spec/test
+    - `fdescribe` or `fit`
+  - 'x' to ignore a spec/test
+    - `xdescribe` or `xit`
 
 - Debugging with VS Code
   - Open to the .ts file to debug
