@@ -9,7 +9,7 @@ export function exampleAlgorithm(nums: number[]): number {
 }
 
 describe(exampleAlgorithm.name, () => {
-  it("should return 3", () => {
+  it('should return 3', () => {
     // Arrange
     const dummyNums = [1, 10];
 
