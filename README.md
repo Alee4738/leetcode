@@ -8,8 +8,8 @@ My solutions to leetcode questions. Most of the solutions are in Python, but I'm
 
 - Terminal
 
-```
-npx jasmine-ts
+```bash
+npm test
 ```
 
 - Jasmine supports focusing on or ignoring tests

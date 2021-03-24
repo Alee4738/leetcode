@@ -57,7 +57,7 @@ function addTwoNumbers(
   return helper(l1, l2, 0);
 }
 
-class TestCase {
+class LocalTestCase {
   constructor(
     public description: string,
     public list1: ListNode | null,
@@ -69,43 +69,43 @@ class TestCase {
 describe(addTwoNumbers.name, () => {
   // lists of length of 0, 1, 2+
   const testCases = [
-    new TestCase(
+    new LocalTestCase(
       '0 + 0 = 0',
       new ListNode(0, null),
       new ListNode(0, null),
       new ListNode(0, null)
     ),
-    new TestCase(
+    new LocalTestCase(
       '0 + 12 = 12',
       new ListNode(0, null),
       new ListNode(2, new ListNode(1, null)),
       new ListNode(2, new ListNode(1, null))
     ),
-    new TestCase(
+    new LocalTestCase(
       '42 + 103 = 145',
       new ListNode(2, new ListNode(4, null)),
       new ListNode(3, new ListNode(0, new ListNode(1, null))),
       new ListNode(5, new ListNode(4, new ListNode(1, null)))
     ),
-    new TestCase(
+    new LocalTestCase(
       '1 + 103 = 104',
       new ListNode(1, null),
       new ListNode(3, new ListNode(0, new ListNode(1, null))),
       new ListNode(4, new ListNode(0, new ListNode(1, null)))
     ),
-    new TestCase(
+    new LocalTestCase(
       'nothing + 103 = 103',
       null,
       new ListNode(3, new ListNode(0, new ListNode(1, null))),
       new ListNode(3, new ListNode(0, new ListNode(1, null)))
     ),
-    new TestCase(
+    new LocalTestCase(
       'Carry a 1 once, 9 + 9 = 18',
       new ListNode(9, null),
       new ListNode(9, null),
       new ListNode(8, new ListNode(1, null))
     ),
-    new TestCase(
+    new LocalTestCase(
       'Carry a 1 multiple times, 99 + 99 = 198',
       new ListNode(9, new ListNode(9, null)),
       new ListNode(9, new ListNode(9, null)),
@@ -113,7 +113,7 @@ describe(addTwoNumbers.name, () => {
     ),
   ];
 
-  testCases.forEach((testCase: TestCase) => {
+  testCases.forEach((testCase: LocalTestCase) => {
     it(testCase.description, () => {
       const actualList = addTwoNumbers(testCase.list1, testCase.list2);
       expect(actualList).toEqual(testCase.expectedList);

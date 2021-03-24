@@ -4,7 +4,7 @@
   "description": "Andrew's personal leetcode repository with questions, solutions, and tests",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine"
+    "test": "nodemon --ext ts --exec 'jasmine-ts --config=./spec/support/jasmine.json'"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,12 @@
   },
   "homepage": "https://github.com/Alee4738/leetcode#readme",
   "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
     "@types/jasmine": "^3.5.11",
     "@types/node": "^14.0.14",
     "jasmine": "^3.5.0",
     "jasmine-ts": "^0.3.0",
+    "nodemon": "^2.0.7",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6"
   },
