@@ -10,14 +10,7 @@ Output: 7 -> 0 -> 8
 Explanation: 342 + 465 = 807.
 */
 
-class ListNode {
-  val: number;
-  next: ListNode | null;
-  constructor(val?: number, next?: ListNode | null) {
-    this.val = val === undefined ? 0 : val;
-    this.next = next === undefined ? null : next;
-  }
-}
+import { ListNode } from './leetcode-types';
 
 function addTwoNumbers(
   l1: ListNode | null,
