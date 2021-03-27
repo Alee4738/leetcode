@@ -1,4 +1,4 @@
-import { TestCase } from './testCase';
+import { TestCase } from './testHelpers';
 
 function say(numAsString: string): string {
   if (numAsString.length === 0) {

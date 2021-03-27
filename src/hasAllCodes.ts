@@ -1,4 +1,4 @@
-import { TestCase } from './testCase';
+import { TestCase } from './testHelpers';
 
 function hasAllCodes(s: string, k: number): boolean {
   // record substrings in a Set, use sliding window

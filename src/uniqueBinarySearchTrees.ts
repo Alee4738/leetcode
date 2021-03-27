@@ -1,7 +1,7 @@
 // Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.
 // https://leetcode.com/problems/unique-binary-search-trees/
 
-import { TestCase } from './testCase';
+import { TestCase } from './testHelpers';
 
 function numTreesHelper(n: number, cache: number[]): number {
   // Given a number k in [1,2,...n], what is the number of trees I can construct if k is the root node?

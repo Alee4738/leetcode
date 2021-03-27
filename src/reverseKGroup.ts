@@ -10,7 +10,7 @@
  * }
  */
 
-import { ListNode } from './leetcode-types';
+import { ListNode } from './leetcodeTypes';
 
 function reverseGroup(
   head: ListNode,

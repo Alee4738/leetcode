@@ -1,4 +1,4 @@
-import { TestCase } from './testCase';
+import { TestCase } from './testHelpers';
 
 // function firstMissingPositive(nums: number[]): number {
 //   // Hash table to the rescue

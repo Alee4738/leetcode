@@ -20,7 +20,7 @@ Constraints:
     s contains only digits and may contain leading zero(s).
 
 */
-import { TestCase } from './testCase';
+import { TestCase } from './testHelpers';
 
 // With cache, this is O(n) time
 function numDecodingsHelper(s: string, cache: Map<string, number>): number {

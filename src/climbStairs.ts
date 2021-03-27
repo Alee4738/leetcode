@@ -1,4 +1,4 @@
-import { TestCase } from './testCase';
+import { TestCase } from './testHelpers';
 
 function climbStairsHelper(n: number, cache: Map<number, number>): number {
   if (n === 1) {
