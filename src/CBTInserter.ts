@@ -35,9 +35,7 @@ class CBTInserter {
       this.depth_of_complete_tree(this.size)
     );
     console.log('nextParent is', nextParent?.val ?? null);
-    if (nextParent === null) {
-      return null;
-    } else if (nextParent.left === null) {
+    if (nextParent.left === null) {
       console.log('inserting left');
       nextParent.left = new TreeNode(v);
     } else {
@@ -84,13 +82,10 @@ class CBTInserter {
 
     */
   private get_next_parent(
-    tree: TreeNode | null,
+    tree: TreeNode,
     size: number,
     depth: number
-  ): TreeNode | null {
-    if (tree === null) {
-      return null;
-    }
+  ): TreeNode {
     console.log('get_next_parent val', tree.val, 'size', size, 'depth', depth);
     if (tree.left === null || tree.right === null) {
       return tree;
