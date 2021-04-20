@@ -6,3 +6,18 @@ export class TestCase<InputType, OutputType> {
     public desc?: string
   ) {}
 }
+
+/**
+ * F for Focus, similar to jasmine's fit()
+ */
+export class FTestCase<InputType, OutputType> extends TestCase<
+  InputType,
+  OutputType
+> {}
+/**
+ * X for "cross out", similar to jasmine's xit()
+ */
+export class XTestCase<InputType, OutputType> extends TestCase<
+  InputType,
+  OutputType
+> {}
