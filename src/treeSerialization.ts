@@ -1,6 +1,10 @@
 import { TreeNode } from './leetcodeTypes';
 import { FTestCase, TestCase, XTestCase } from './testHelpers';
 
+/**
+ * @param root root of tree
+ * @returns tree values described in level-order traversal
+ */
 export function serializeTree(root: TreeNode | null): (number | null)[] {
   const queue: (TreeNode | null)[] = [root];
   const result: (number | null)[] = [];
@@ -21,6 +25,10 @@ export function serializeTree(root: TreeNode | null): (number | null)[] {
   return result;
 }
 
+/**
+ * @param data tree values described in level-order traversal
+ * @returns root of tree
+ */
 export function deserializeTree(data: (number | null)[]): TreeNode | null {
   const firstVal = data[0];
   if (firstVal === null || firstVal === undefined) {
