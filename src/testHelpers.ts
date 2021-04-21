@@ -21,3 +21,20 @@ export class XTestCase<InputType, OutputType> extends TestCase<
   InputType,
   OutputType
 > {}
+
+/**
+ * Middleware that checks type of TestCase to run jasmine's it() and fit()
+ * @param testFunc call jasmine's expect() inside this method
+ */
+export function runTests<InputType, OutputType>(
+  testCases: TestCase<InputType, OutputType>[],
+  testFunc: (testCase: TestCase<InputType, OutputType>) => void
+): void {
+  testCases.forEach((testCase) => {
+    if (testCase instanceof FTestCase) {
+      fit(testCase.desc ?? 'None', () => testFunc(testCase));
+    } else if (!(testCase instanceof XTestCase)) {
+      it(testCase.desc ?? 'None', () => testFunc(testCase));
+    }
+  });
+}

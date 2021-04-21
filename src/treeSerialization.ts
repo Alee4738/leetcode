@@ -1,5 +1,5 @@
 import { TreeNode } from './leetcodeTypes';
-import { FTestCase, TestCase, XTestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 /**
  * @param root root of tree
@@ -137,16 +137,9 @@ describe(serializeTree.name, () => {
     ),
   ];
 
-  testCases.forEach((testCase) => {
-    const run = () => {
-      const actualResult = serializeTree(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    };
-    if (testCase instanceof FTestCase) {
-      fit(testCase.desc ?? 'None', run);
-    } else if (!(testCase instanceof XTestCase)) {
-      it(testCase.desc ?? 'None', run);
-    }
+  runTests(testCases, (testCase) => {
+    const actualResult = serializeTree(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
 
@@ -208,16 +201,9 @@ describe(deserializeTree.name, () => {
     ),
   ];
 
-  testCases.forEach((testCase) => {
-    const run = () => {
-      const actualResult = deserializeTree(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    };
-    if (testCase instanceof FTestCase) {
-      fit(testCase.desc ?? 'None', run);
-    } else if (!(testCase instanceof XTestCase)) {
-      it(testCase.desc ?? 'None', run);
-    }
+  runTests(testCases, (testCase) => {
+    const actualResult = deserializeTree(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
 
@@ -240,15 +226,8 @@ describe(`${serialize.name}(${deserialize.name}(valid tree as string)) = valid t
     new TestCase('1,2,3,4,,,5,,6,7,,,8', '1,2,3,4,,,5,,6,7,,,8', 'big tree'),
   ];
 
-  testCases.forEach((testCase) => {
-    const run = () => {
-      const actualResult = serialize(deserialize(testCase.input));
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    };
-    if (testCase instanceof FTestCase) {
-      fit(testCase.desc ?? 'None', run);
-    } else if (!(testCase instanceof XTestCase)) {
-      it(testCase.desc ?? 'None', run);
-    }
+  runTests(testCases, (testCase) => {
+    const actualResult = serialize(deserialize(testCase.input));
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
