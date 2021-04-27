@@ -1,6 +1,6 @@
 import { TreeNode } from './leetcodeTypes';
 import { FTestCase, TestCase, XTestCase } from './testHelpers';
-import { deserializeTree } from './treeSerialization';
+import { makeTreeFromArray } from './treeSerialization';
 
 export enum RotateDirection {
   Left,
@@ -38,39 +38,39 @@ describe(rotateBst.name, () => {
   >[] = [
     new TestCase([null, RotateDirection.Left], null),
     new TestCase(
-      [deserializeTree([1]), RotateDirection.Right],
-      deserializeTree([1]),
+      [makeTreeFromArray([1]), RotateDirection.Right],
+      makeTreeFromArray([1]),
       'rotating a single node does nothing'
     ),
     new TestCase(
-      [deserializeTree([2, 1]), RotateDirection.Right],
-      deserializeTree([1, null, 2]),
+      [makeTreeFromArray([2, 1]), RotateDirection.Right],
+      makeTreeFromArray([1, null, 2]),
       '2 nodes'
     ),
     new TestCase(
-      [deserializeTree([2, 1, 3]), RotateDirection.Left],
-      deserializeTree([3, 2, null, 1]),
+      [makeTreeFromArray([2, 1, 3]), RotateDirection.Left],
+      makeTreeFromArray([3, 2, null, 1]),
       '3 nodes'
     ),
     new TestCase(
-      [deserializeTree([2, 1]), RotateDirection.Left],
-      deserializeTree([2, 1]),
+      [makeTreeFromArray([2, 1]), RotateDirection.Left],
+      makeTreeFromArray([2, 1]),
       'tree that cannot be rotated left returns the same tree'
     ),
     new TestCase(
-      [deserializeTree([4, null, 8, 6, 10]), RotateDirection.Left],
-      deserializeTree([8, 4, 10, null, 6]),
+      [makeTreeFromArray([4, null, 8, 6, 10]), RotateDirection.Left],
+      makeTreeFromArray([8, 4, 10, null, 6]),
       'when rotate right, root.right.left becomes newRoot.left.right'
     ),
     new TestCase(
-      [deserializeTree([10, 6, null, 4, 8]), RotateDirection.Right],
-      deserializeTree([6, 4, 10, null, null, 8]),
+      [makeTreeFromArray([10, 6, null, 4, 8]), RotateDirection.Right],
+      makeTreeFromArray([6, 4, 10, null, null, 8]),
       'when rotate left, root.left.right becomes newRoot.right.left'
     ),
     new TestCase(
       [
         // prettier-ignore
-        deserializeTree([
+        makeTreeFromArray([
           6,
           2, 10,
           1, 4, 8, 14,
@@ -79,7 +79,7 @@ describe(rotateBst.name, () => {
         RotateDirection.Left,
       ],
       // prettier-ignore
-      deserializeTree([
+      makeTreeFromArray([
         10,
         6, 14,
         2, 8, 12, null,
@@ -91,7 +91,7 @@ describe(rotateBst.name, () => {
     new TestCase(
       [
         // prettier-ignore
-        deserializeTree([
+        makeTreeFromArray([
           6,
           2, 10,
           1, 4, 8, 14,
@@ -100,7 +100,7 @@ describe(rotateBst.name, () => {
         RotateDirection.Right,
       ],
       // prettier-ignore
-      deserializeTree([
+      makeTreeFromArray([
         2,
         1, 6,
         null,null,4, 10,

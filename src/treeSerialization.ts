@@ -1,11 +1,15 @@
 import { TreeNode } from './leetcodeTypes';
 import { runTests, TestCase } from './testHelpers';
 
+export function newTreeNode(val: number): TreeNode {
+  return new TreeNode(val);
+}
+
 /**
  * @param root root of tree
  * @returns tree values described in level-order traversal
  */
-export function serializeTree(root: TreeNode | null): (number | null)[] {
+export function serializeTreeToArray(root: TreeNode | null): (number | null)[] {
   const queue: (TreeNode | null)[] = [root];
   const result: (number | null)[] = [];
   while (queue.length > 0) {
@@ -29,13 +33,16 @@ export function serializeTree(root: TreeNode | null): (number | null)[] {
  * @param data tree values described in level-order traversal
  * @returns root of tree
  */
-export function deserializeTree(data: (number | null)[]): TreeNode | null {
+export function deserializeTreeFromArray(
+  data: (number | null)[],
+  createNode: (val: number, parent: TreeNode | null) => TreeNode = newTreeNode
+): TreeNode | null {
   const firstVal = data[0];
   if (firstVal === null || firstVal === undefined) {
     return null;
   }
 
-  const root = new TreeNode(firstVal);
+  const root = createNode(firstVal, null);
   const parentQueue: TreeNode[] = [root];
   let dataIndex = 1;
   while (parentQueue.length > 0) {
@@ -45,7 +52,7 @@ export function deserializeTree(data: (number | null)[]): TreeNode | null {
     if (leftVal === null || leftVal === undefined) {
       parentToFill.left = null;
     } else {
-      parentToFill.left = new TreeNode(leftVal);
+      parentToFill.left = createNode(leftVal, parentToFill);
       parentQueue.push(parentToFill.left);
     }
     dataIndex += 1;
@@ -54,7 +61,7 @@ export function deserializeTree(data: (number | null)[]): TreeNode | null {
     if (rightVal === null || rightVal === undefined) {
       parentToFill.right = null;
     } else {
-      parentToFill.right = new TreeNode(rightVal);
+      parentToFill.right = createNode(rightVal, parentToFill);
       parentQueue.push(parentToFill.right);
     }
     dataIndex += 1;
@@ -62,11 +69,24 @@ export function deserializeTree(data: (number | null)[]): TreeNode | null {
   return root;
 }
 
+/**
+ * @see deserializeTreeFromArray
+ */
+export const makeTreeFromArray = deserializeTreeFromArray;
+
+export function serializeTreeToJson(root: TreeNode | null): string {
+  return JSON.stringify(root);
+}
+
+export function deserializeTreeFromJson(data: string): TreeNode | null {
+  return JSON.parse(data);
+}
+
 /*
  * Encodes a tree to a single string.
  */
 function serialize(root: TreeNode | null): string {
-  return serializeTree(root).join(',');
+  return serializeTreeToArray(root).join(',');
 }
 
 /*
@@ -81,10 +101,10 @@ function deserialize(data: string): TreeNode | null {
     }
     return +element;
   });
-  return deserializeTree(dataArr);
+  return deserializeTreeFromArray(dataArr, newTreeNode);
 }
 
-describe(serializeTree.name, () => {
+describe(serializeTreeToArray.name, () => {
   const testCases: TestCase<TreeNode | null, (number | null)[]>[] = [
     new TestCase(null, []),
     new TestCase(new TreeNode(1), [1], 'one node'),
@@ -138,12 +158,12 @@ describe(serializeTree.name, () => {
   ];
 
   runTests(testCases, (testCase) => {
-    const actualResult = serializeTree(testCase.input);
+    const actualResult = serializeTreeToArray(testCase.input);
     expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
 
-describe(deserializeTree.name, () => {
+describe(deserializeTreeFromArray.name, () => {
   const testCases: TestCase<(number | null)[], TreeNode | null>[] = [
     new TestCase([], null),
     new TestCase([1], new TreeNode(1), 'one node'),
@@ -202,7 +222,7 @@ describe(deserializeTree.name, () => {
   ];
 
   runTests(testCases, (testCase) => {
-    const actualResult = deserializeTree(testCase.input);
+    const actualResult = deserializeTreeFromArray(testCase.input, newTreeNode);
     expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
@@ -228,6 +248,131 @@ describe(`${serialize.name}(${deserialize.name}(valid tree as string)) = valid t
 
   runTests(testCases, (testCase) => {
     const actualResult = serialize(deserialize(testCase.input));
+    expect(actualResult).toEqual(testCase.expectedOutput);
+  });
+});
+
+describe(serializeTreeToJson.name, () => {
+  const testCases: TestCase<TreeNode | null, string>[] = [
+    new TestCase(null, 'null'),
+    new TestCase(
+      new TreeNode(1),
+      '{"val":1,"left":null,"right":null}',
+      'one node'
+    ),
+    new TestCase(
+      new TreeNode(1, null, new TreeNode(2)),
+      '{"val":1,"left":null,"right":{"val":2,"left":null,"right":null}}',
+      'no left, has right'
+    ),
+    new TestCase(
+      new TreeNode(1, new TreeNode(2), new TreeNode(3)),
+      '{"val":1,"left":{"val":2,"left":null,"right":null},"right":{"val":3,"left":null,"right":null}}',
+      'has left, has right'
+    ),
+    new TestCase(
+      // prettier-ignore
+      new TreeNode(1,
+        new TreeNode(2),
+        new TreeNode(3,
+          new TreeNode(4),
+          new TreeNode(5))),
+      '{"val":1,"left":{"val":2,"left":null,"right":null},"right":{"val":3,"left":{"val":4,"left":null,"right":null},"right":{"val":5,"left":null,"right":null}}}'
+    ),
+    new TestCase(
+      // prettier-ignore
+      new TreeNode(1,
+        new TreeNode(2,
+          new TreeNode(4)),
+        new TreeNode(3)),
+      '{"val":1,"left":{"val":2,"left":{"val":4,"left":null,"right":null},"right":null},"right":{"val":3,"left":null,"right":null}}'
+    ),
+    new TestCase(
+      // prettier-ignore
+      new TreeNode(1,
+        new TreeNode(2,
+          new TreeNode(4,
+            null,
+            new TreeNode(6,
+              null,
+              new TreeNode(8))),
+          null),
+        new TreeNode(3,
+          null,
+          new TreeNode(5,
+            new TreeNode(7),
+            null))),
+      '{"val":1,"left":{"val":2,"left":{"val":4,"left":null,"right":{"val":6,"left":null,"right":{"val":8,"left":null,"right":null}}},"right":null},"right":{"val":3,"left":null,"right":{"val":5,"left":{"val":7,"left":null,"right":null},"right":null}}}',
+      'big tree'
+    ),
+  ];
+
+  runTests(testCases, (testCase) => {
+    const actualResult = serializeTreeToJson(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
+  });
+});
+
+describe(deserializeTreeFromArray.name, () => {
+  const testCases: TestCase<(number | null)[], TreeNode | null>[] = [
+    new TestCase([], null),
+    new TestCase([1], new TreeNode(1), 'one node'),
+    new TestCase(
+      [1, null, 2],
+      new TreeNode(1, null, new TreeNode(2)),
+      'no left, has right'
+    ),
+    new TestCase(
+      [1, 2, 3, null, null, null, null, 1000],
+      new TreeNode(1, new TreeNode(2), new TreeNode(3)),
+      'more inputs than are allowed in the tree, the extra inputs are ignored'
+    ),
+    new TestCase(
+      [1, 2, 3],
+      new TreeNode(1, new TreeNode(2), new TreeNode(3)),
+      'has left, has right'
+    ),
+    new TestCase(
+      [1, 2, 3, null, null, 4, 5],
+      // prettier-ignore
+      new TreeNode(1,
+        new TreeNode(2),
+        new TreeNode(3,
+          new TreeNode(4),
+          new TreeNode(5))),
+      'nulls exist if there are non-nulls to be printed later (2s null children must be printed because 4 and 5 are printed later)'
+    ),
+    new TestCase(
+      [1, 2, 3, 4],
+      // prettier-ignore
+      new TreeNode(1,
+        new TreeNode(2,
+          new TreeNode(4)),
+        new TreeNode(3)),
+      'nulls are cut off once the last non-null is printed (3 has null children, but theyre not printed)'
+    ),
+    new TestCase(
+      [1, 2, 3, 4, null, null, 5, null, 6, 7, null, null, 8],
+      // prettier-ignore
+      new TreeNode(1,
+        new TreeNode(2,
+          new TreeNode(4,
+            null,
+            new TreeNode(6,
+              null,
+              new TreeNode(8))),
+          null),
+        new TreeNode(3,
+          null,
+          new TreeNode(5,
+            new TreeNode(7),
+            null))),
+      'big tree'
+    ),
+  ];
+
+  runTests(testCases, (testCase) => {
+    const actualResult = deserializeTreeFromArray(testCase.input, newTreeNode);
     expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
