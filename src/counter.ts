@@ -56,7 +56,7 @@ export function nextNumber(
   }
 }
 
-fdescribe(nextNumber.name, () => {
+describe(nextNumber.name, () => {
   const testCases: TestCase<[number[], number], number[] | undefined>[] = [
     new TestCase([[1, 2, 3], 5], [1, 2, 4]),
     new TestCase([[1, 2, 4], 5], [1, 2, 5]),
