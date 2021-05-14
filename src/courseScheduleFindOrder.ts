@@ -57,11 +57,6 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
   const cache: number[][] = [];
 
-  // Invent a new course that has all actual courses as prerequisites
-  // for (let i = 0; i < numCourses; i++) {
-  //     prereqAdjList[numCourses].add(i);
-  // }
-
   for (let i = 0; i < numCourses; i++) {
     if (
       findOrderHelper(i, prereqAdjList, new Set<number>(), cache).length === 0
