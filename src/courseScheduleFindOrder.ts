@@ -88,3 +88,22 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
   }
   return courseOrder;
 }
+
+/*
+2
+[[1,0]]
+4
+[[1,0],[2,0],[3,1],[3,2]]
+1
+[]
+2
+[[0,1],[1,0]]
+*/
+
+/*
+Valid orders, but not the only ones for those inputs
+[0,1]
+[0,1,2,3]
+[0]
+[]
+*/
