@@ -34,17 +34,17 @@ export function nextNumber(
   let i = nextNum.length - 1;
   let isCarryingOver = false;
   while (i >= 0) {
-    console.log('before', nextNum);
+    // console.log('before', nextNum);
     nextNum[i]++;
-    console.log('after', nextNum);
+    // console.log('after', nextNum);
     const maxDigitForThisIndex = maxDigit + i - (nextNum.length - 1);
-    console.log('maxDigitForThisIndex', maxDigitForThisIndex);
+    // console.log('maxDigitForThisIndex', maxDigitForThisIndex);
     if (nextNum[i] > maxDigitForThisIndex) {
-      console.log('Carrying over');
+      // console.log('Carrying over');
       i--;
       isCarryingOver = true;
     } else {
-      console.log('Adding');
+      // console.log('Adding');
       for (let j = i + 1; j < nextNum.length; j++) {
         nextNum[j] = nextNum[j - 1] + 1;
       }
