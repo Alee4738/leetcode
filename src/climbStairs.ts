@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function climbStairsHelper(n: number, cache: Map<number, number>): number {
   if (n === 1) {
@@ -30,10 +30,8 @@ describe(climbStairs.name, () => {
     new TestCase(20, 10946),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = climbStairs(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = climbStairs(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function hasAllCodes(s: string, k: number): boolean {
   // record substrings in a Set, use sliding window
@@ -24,10 +24,8 @@ describe(hasAllCodes.name, () => {
     new TestCase(['0000000001011100', 4], false),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = hasAllCodes(...testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = hasAllCodes(...testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

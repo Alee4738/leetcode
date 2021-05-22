@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function rob(nums: number[]): number {
   const cache: number[] = [0, 0];
@@ -18,10 +18,8 @@ describe(rob.name, () => {
     new TestCase([100, 2, 100, 2, 2, 100, 100, 100, 2], 400),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = rob(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = rob(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

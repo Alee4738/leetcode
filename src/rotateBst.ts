@@ -1,5 +1,5 @@
 import { TreeNode } from './leetcodeTypes';
-import { FTestCase, TestCase, XTestCase } from './testHelpers';
+import { FTestCase, runTests, TestCase, XTestCase } from './testHelpers';
 import { makeTreeFromArray } from './treeSerialization';
 
 export enum RotateDirection {
@@ -111,15 +111,8 @@ describe(rotateBst.name, () => {
     ),
   ];
 
-  testCases.forEach((testCase) => {
-    const run = () => {
-      const actualResult = rotateBst(...testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    };
-    if (testCase instanceof FTestCase) {
-      fit(testCase.desc ?? 'None', run);
-    } else if (!(testCase instanceof XTestCase)) {
-      it(testCase.desc ?? 'None', run);
-    }
+  runTests(testCases, (testCase) => {
+    const actualResult = rotateBst(...testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

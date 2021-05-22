@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function say(numAsString: string): string {
   if (numAsString.length === 0) {
@@ -46,11 +46,9 @@ describe(say.name, () => {
     new TestCase('11111111111111111', '171', 'repeated > 9 times'),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = say(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = say(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
 
@@ -64,10 +62,8 @@ describe(countAndSay.name, () => {
     new TestCase(6, '312211', 'say(countAndSay(5)) = say(111221) = 312211'),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = countAndSay(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = countAndSay(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

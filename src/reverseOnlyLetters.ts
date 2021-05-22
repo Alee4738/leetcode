@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function reverseOnlyLetters(S: string): string {
   const letters = new Set<string>([
@@ -25,10 +25,8 @@ describe(reverseOnlyLetters.name, () => {
     new TestCase('', ''),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = reverseOnlyLetters(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = reverseOnlyLetters(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

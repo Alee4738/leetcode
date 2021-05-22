@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function romanToInt(s: string): number {
   const valueBySymbol: { [key: string]: number } = {
@@ -41,10 +41,8 @@ describe(romanToInt.name, () => {
     new TestCase('MCMXCIV', 1994),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = romanToInt(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = romanToInt(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

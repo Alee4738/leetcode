@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function licenseKeyFormatting(S: string, K: number): string {
   const result = [];
@@ -32,10 +32,8 @@ describe(licenseKeyFormatting.name, () => {
     new TestCase(['2-5g-3-J', 2], '2-5G-3J'),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = licenseKeyFormatting(...testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = licenseKeyFormatting(...testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 // function firstMissingPositive(nums: number[]): number {
 //   // Hash table to the rescue
@@ -66,10 +66,8 @@ describe(firstMissingPositive.name, () => {
     new TestCase([1, 1, -1, 2, 5, 10, 3, 4, 10], 6, 'has repeats and gaps'),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = firstMissingPositive(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = firstMissingPositive(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

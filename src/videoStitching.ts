@@ -1,4 +1,4 @@
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 function videoStitching(clips: number[][], T: number): number {
   // Greedy solution: Given a minute that you need to cover, choose the interval that covers it and goes the farthest
@@ -113,10 +113,8 @@ describe(videoStitching.name, () => {
     ),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = videoStitching(...testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = videoStitching(...testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });

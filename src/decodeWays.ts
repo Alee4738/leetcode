@@ -20,7 +20,7 @@ Constraints:
     s contains only digits and may contain leading zero(s).
 
 */
-import { TestCase } from './testHelpers';
+import { runTests, TestCase } from './testHelpers';
 
 // With cache, this is O(n) time
 function numDecodingsHelper(s: string, cache: Map<string, number>): number {
@@ -74,10 +74,8 @@ describe(numDecodings.name, () => {
     new TestCase('1003', 0, 'double 0 fails'),
   ];
 
-  testCases.forEach((testCase) => {
-    it(testCase.desc ?? 'None', () => {
-      const actualResult = numDecodings(testCase.input);
-      expect(actualResult).toEqual(testCase.expectedOutput);
-    });
+  runTests(testCases, (testCase) => {
+    const actualResult = numDecodings(testCase.input);
+    expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
