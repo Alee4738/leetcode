@@ -41,39 +41,34 @@ function threeSumMulti(arr: number[], target: number): number {
         // console.log(target, 'is the sum of', numI, numJ, complement)
         if (numI !== numJ && numI !== complement && numJ !== complement) {
           // console.log(1)
-          result =
-            result +
-            BigInt(
-              indicesWithNumI.length *
-                indicesWithNumJ.length *
-                indicesWithComplement.length
-            );
+          result += BigInt(
+            indicesWithNumI.length *
+              indicesWithNumJ.length *
+              indicesWithComplement.length
+          );
         } else if (numI === numJ && numI !== complement) {
           // console.log(2)
-          result =
-            result +
+          result +=
             nChooseK(indicesWithNumI.length, 2) *
-              BigInt(indicesWithComplement.length);
+            BigInt(indicesWithComplement.length);
         } else if (numI === complement && numI !== numJ) {
           // console.log(3)
-          result =
-            result +
+          result +=
             nChooseK(indicesWithNumI.length, 2) *
-              BigInt(indicesWithNumJ.length);
+            BigInt(indicesWithNumJ.length);
         } else if (numJ === complement && numJ !== numI) {
           // console.log(4)
-          result =
-            result +
+          result +=
             nChooseK(indicesWithNumJ.length, 2) *
-              BigInt(indicesWithNumI.length);
+            BigInt(indicesWithNumI.length);
         } else if (numI === numJ && numJ === complement) {
           // console.log(5)
           // console.log('indicesWithNumI.length', indicesWithNumI.length)
-          result = result + BigInt(nChooseK(indicesWithNumI.length, 3));
+          result += BigInt(nChooseK(indicesWithNumI.length, 3));
         } else {
           throw new Error('impossible');
         }
-        result = result % BigInt(modulus);
+        result %= BigInt(modulus);
       }
     }
   }
