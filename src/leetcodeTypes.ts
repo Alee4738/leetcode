@@ -26,3 +26,12 @@ export class GraphNode {
     this.neighbors = neighbors === undefined ? [] : neighbors;
   }
 }
+
+export class NaryTreeNode {
+  val: number;
+  children: NaryTreeNode[];
+  constructor(val?: number, children?: NaryTreeNode[]) {
+    this.val = val === undefined ? 0 : val;
+    this.children = children === undefined ? [] : children;
+  }
+}

@@ -1,8 +1,12 @@
-import { TreeNode } from './leetcodeTypes';
+import { TreeNode, NaryTreeNode } from './leetcodeTypes';
 import { runTests, TestCase } from './testHelpers';
 
 export function newTreeNode(val: number): TreeNode {
   return new TreeNode(val);
+}
+
+export function newNaryTreeNode(val: number): NaryTreeNode {
+  return new NaryTreeNode(val);
 }
 
 /**
@@ -65,6 +69,42 @@ export function deserializeTreeFromArray(
       parentQueue.push(parentToFill.right);
     }
     dataIndex += 1;
+  }
+  return root;
+}
+
+/**
+ * @param data tree values described in level-order traversal
+ * Each group of children is separated by the null value.
+ * @returns root of tree
+ */
+export function deserializeNaryTreeFromArray(
+  data: (number | null)[],
+  createNode: (
+    val: number,
+    parent: NaryTreeNode | null
+  ) => NaryTreeNode = newNaryTreeNode
+): NaryTreeNode | null {
+  const firstVal = data[0];
+  if (firstVal === null || firstVal === undefined) {
+    return null;
+  }
+
+  const root = createNode(firstVal, null);
+  const parentQueue: NaryTreeNode[] = [root];
+  let dataIndex = 2;
+  while (parentQueue.length > 0) {
+    const parentToFill = parentQueue.shift()!;
+    while (data[dataIndex] !== null && data[dataIndex] !== undefined) {
+      const children = parentToFill.children ?? [];
+      const node = createNode(data[dataIndex]!, parentToFill);
+      children.push(node);
+      parentQueue.push(node);
+      dataIndex++;
+    }
+    if (data[dataIndex] === null) {
+      dataIndex++;
+    }
   }
   return root;
 }
@@ -373,6 +413,51 @@ describe(deserializeTreeFromArray.name, () => {
 
   runTests(testCases, (testCase) => {
     const actualResult = deserializeTreeFromArray(testCase.input, newTreeNode);
+    expect(actualResult).toEqual(testCase.expectedOutput);
+  });
+});
+
+describe(deserializeNaryTreeFromArray.name, () => {
+  const testCases: TestCase<(number | null)[], NaryTreeNode | null>[] = [
+    new TestCase([], null),
+    new TestCase([1], new NaryTreeNode(1), 'one node'),
+    new TestCase(
+      [1, null, 2],
+      new NaryTreeNode(1, [new NaryTreeNode(2)]),
+      'one parent, one child'
+    ),
+    new TestCase(
+      [1, null, 2, 3, 4, null, 5],
+      // prettier-ignore
+      new NaryTreeNode(1, [
+        new NaryTreeNode(2, [
+          new NaryTreeNode(5)
+        ]),
+        new NaryTreeNode(3),
+        new NaryTreeNode(4)
+      ]),
+      'two levels'
+    ),
+    new TestCase(
+      [1, null, 3, 2, 4, null, 5, 6],
+      // prettier-ignore
+      new NaryTreeNode(1, [
+        new NaryTreeNode(3, [
+          new NaryTreeNode(5),
+          new NaryTreeNode(6)
+        ]),
+        new NaryTreeNode(2),
+        new NaryTreeNode(4)
+      ]),
+      'medium tree'
+    ),
+  ];
+
+  runTests(testCases, (testCase) => {
+    const actualResult = deserializeNaryTreeFromArray(
+      testCase.input,
+      newNaryTreeNode
+    );
     expect(actualResult).toEqual(testCase.expectedOutput);
   });
 });
