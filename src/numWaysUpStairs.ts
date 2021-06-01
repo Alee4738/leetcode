@@ -1,5 +1,4 @@
-// Cracking the Coding Interview
-// Problem 8.1 Triple Step
+// CTCI Problem 8.1 Triple Step
 
 import { TestCase, runTests } from './testHelpers';
 

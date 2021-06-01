@@ -1,5 +1,4 @@
-// Cracking the Coding Interview
-// Problem 8.2 Robot in a grid
+// CTCI Problem 8.2 Robot in a grid
 
 import { TestCase, runTests } from './testHelpers';
 
