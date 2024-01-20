@@ -1,6 +1,6 @@
 # Personal Leetcode Repository
 
-My solutions to leetcode questions. Most of the solutions are in Python, but I'm moving to TypeScript (there are some old JS ones).
+My solutions to leetcode questions. Most of the solutions are in Python, but I'm moving to TypeScript (there are some JS ones).
 
 ## Usage
 
